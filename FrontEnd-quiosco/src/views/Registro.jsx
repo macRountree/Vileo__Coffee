@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom";
 
 export default function Registro() {
   return (
@@ -38,7 +38,9 @@ export default function Registro() {
 
         </div>
         <nav className="mt-5">
-             <a href="/auth/login">¿Ya tienes cuenta? Inicia Sesión</a>
+          
+          {/* En lugar de usar un anchor y que se recargue la pagina se importa un componente de react router dom llamado Link */}
+             <Link to="/auth/login">¿Ya tienes cuenta? Inicia Sesión</Link>
          </nav>
     </>
   )

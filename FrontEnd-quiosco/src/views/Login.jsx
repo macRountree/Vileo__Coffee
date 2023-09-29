@@ -1,9 +1,10 @@
+import { Link } from "react-router-dom";
 
 export default function Login() {
   return (
     <>
     <h1 className="text-4xl font-black">Iniciar Sesión</h1>
-    <p>Para iniciar sesión </p>
+    <p>Para crear un pedido debes iniciar sesión </p>
     <div className="bg-white shadow-md rounded-md mt-10 px-5 py-10">
 
       <form action="">
@@ -27,7 +28,7 @@ export default function Login() {
 
     </div>
     <nav className="mt-5">
-      <a href="/auth/registro">¿No tienes Cuenta? Crea una</a>
+      <Link to="/auth/registro">¿No tienes Cuenta? Crea una</Link>
     </nav>
 </>
   )
