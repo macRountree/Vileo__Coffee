@@ -13,7 +13,9 @@ export default function Sidebar() {
                 // <p>{categoria.nombre}</p>
                
 
-                <Categoria categoria={categoria}/>
+                <Categoria 
+                key={categoria.id}
+                categoria={categoria}/>
 
                
                 //!Props son argumentos que se pasan entre componentes en React
@@ -23,13 +25,13 @@ export default function Sidebar() {
         <div className="my-5 px-5 ">
             <button
             type="button"
-            className="text-center bg-red-500 w-full p-3 font-bold text-white truncate   "
+            className="text-center text-base hover:text-lg  bg-red-500 w-full p-3 font-bold text-white truncate   "
             >
                 Cancelar Orden
             </button>
 
         </div>
-
+{/* sdfsdfsd */}
     </aside>
   )
 }
