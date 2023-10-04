@@ -7,6 +7,8 @@ const QuioscoProvider = ({children} )=>{
 
     const[categorias, setCategorias] = useState(categoriasDb); //se utiliza corchetes en el destructuring
     const[categoriaActual, setCategoriaActual]= useState(categorias[0]) //cuando presionamos una categoria se cambia ala categoria actual
+    const[modal, setmodal]= useState(false) //Cuando el usuario presione 'Agregar' se debemostrar un modal
+    const[producto, setProducto]= useState({}) 
     
     const handleClickCategoria = (id)=>{
         const categoria = categorias.filter(categoria => categoria.id === id)[0];
@@ -14,14 +16,26 @@ const QuioscoProvider = ({children} )=>{
 
 
     }
-    console.log(categoriaActual);
+    const handleClickModal = () => {
+         setmodal(!modal)
+        }
+
+        const handleSetProducto = producto =>{
+            setProducto(producto)
+        }
+
+
     return( //Colocamos variables o funciones donde sea para importarlos en cualquier componente
     
     <QuioscoContext.Provider 
     value={{
         categorias,
         categoriaActual,
-        handleClickCategoria
+        handleClickCategoria,
+        modal,
+        handleClickModal,
+        producto,
+        handleSetProducto
     }}>
         {children}</QuioscoContext.Provider>
 
