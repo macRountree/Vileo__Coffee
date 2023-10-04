@@ -1,9 +1,13 @@
-import { categorias } from "../data/categorias";
+import useQuiosco from "../hooks/useQuiosco";
 import Categoria from "./Categoria";
 
+
 export default function Sidebar() {
+    const{categorias}= useQuiosco()
+
+
   return (  //Este parentesis del return  muestra informacion que hay dentros
-    <aside className="md:w-72">
+    <aside className="md:w-56">
         <div className="p-4">
             <img className="w-40" src="img/logo.svg " alt="Logo Coffee" />
         </div>
