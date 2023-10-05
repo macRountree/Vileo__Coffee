@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import { categorias as categoriasDb } from "../data/categorias";
-
+import { toast } from "react-toastify"; //!Instalamos toastify y agremaos al provider.. tambien instalamos los componentes de CSS
+import "react-toastify/dist/ReactToastify.css";
 const QuioscoContext = createContext(categoriasDb);
 const QuioscoProvider = ({ children }) => {
   //Podemos pasarle strings  funciones state etc dentro del value/
@@ -23,9 +24,32 @@ const QuioscoProvider = ({ children }) => {
     setProducto(producto);
   };
 
-  const handleAgregarPedido = ({ categoria_id, imagen, ...producto }) => {
+  const handleAgregarPedido = ({ categoria_id, ...producto }) => {
     // En react no debemos modificar el state por lo que no se recomienda utilizar push,unshift etc
-    setPedido([...pedido, producto]);
+    if (pedido.some((pedidoState) => pedidoState.id === producto.id)) {
+      const pedidoActualizado = pedido.map((pedidoState) =>
+        pedidoState.id === producto.id ? producto : pedidoState
+      );
+      setPedido(pedidoActualizado);
+      toast.success("Guardado Correctamente");
+    } else {
+      setPedido([...pedido, producto]);
+      toast.success("Agregado a Pedido");
+    }
+  };
+
+  const handleEditarCantidad = (id) => {
+    const productoActualizar = pedido.filter(
+      (producto) => producto.id === id
+    )[0];
+    setProducto(productoActualizar);
+    setmodal(!modal);
+  };
+
+  const handleEliminarProductoPedido = (id) => {
+    const pedidoActualizado = pedido.filter((producto) => producto.id !== id);
+    setPedido(pedidoActualizado);
+    toast.success("Pedido Eliminado");
   };
 
   return (
@@ -42,6 +66,8 @@ const QuioscoProvider = ({ children }) => {
         handleSetProducto,
         pedido,
         handleAgregarPedido,
+        handleEditarCantidad,
+        handleEliminarProductoPedido,
       }}
     >
       {children}

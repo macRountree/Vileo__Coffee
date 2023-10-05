@@ -16,6 +16,7 @@ export default function Resumen() {
         ) : (
           pedido.map((producto) => (
             <ResumenProducto
+              key={producto.id}
               //le pasamos un prop de producto
               producto={producto}
             />

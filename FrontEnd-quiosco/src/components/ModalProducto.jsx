@@ -1,12 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react"; //El 90% de las veces se usa useEffect/useState
 import { formatearDinero } from "../helpers";
 import useQuiosco from "../hooks/useQuiosco";
-
 export default function ModalProducto() {
   // ! Extraemos el producto y mostrar la info en el modal al presionar Agregar
-  const { producto, handleClickModal, handleAgregarPedido } = useQuiosco();
+  const { producto, handleClickModal, handleAgregarPedido, pedido } =
+    useQuiosco();
   const [cantidad, setCantidad] = useState(1);
-  console.log(producto);
+  const [edicion, setEdicion] = useState(false);
+  useEffect(() => {
+    if (pedido.some((pedidoState) => pedidoState.id === producto.id)) {
+      const productoEdit = pedido.filter(
+        (pedidoState) => pedidoState.id === producto.id
+      )[0];
+      setCantidad(productoEdit.cantidad);
+      setEdicion(true);
+    }
+  }, [pedido]); //Siempre se usa un callback y
   return (
     <div className="md:flex  gap-10">
       <div className="md:w-1/3">
@@ -92,9 +101,14 @@ export default function ModalProducto() {
         <button
           type="button"
           className="bg-indigo-600 hover:bg-indigo-800 px-5 py-2 mt-5 text-white font-bold uppercase rounded"
-          onClick={() => handleAgregarPedido({ ...producto, cantidad })} //cuando ponemos metodos debemos usar callback.... y le pasamos tanto el producto como la cantidad usamos spread para agregar la cantidad a prducto
+          onClick={
+            () => {
+              handleAgregarPedido({ ...producto, cantidad });
+              handleClickModal();
+            } //cuando ponemos metodos debemos usar callback.... y le pasamos tanto el producto como la cantidad usamos spread para agregar la cantidad a prducto
+          }
         >
-          Añadir al Pedido
+          {edicion ? "Guardar Cambios" : "Añadir al Pedido"}
         </button>
       </div>
     </div>
