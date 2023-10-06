@@ -40,7 +40,7 @@ export default function layout() {
           <ModalProducto />
         </Modal>
       )}
-      <ToastContainer />
+      <ToastContainer autoClose={3000} />
     </>
   );
 }

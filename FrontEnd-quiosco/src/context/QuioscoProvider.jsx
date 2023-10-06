@@ -1,16 +1,43 @@
-import { createContext, useState } from "react";
-import { categorias as categoriasDb } from "../data/categorias";
+import { createContext, useState, useEffect } from "react";
+// import { categorias as categoriasDb } from "../data/categorias";
 import { toast } from "react-toastify"; //!Instalamos toastify y agremaos al provider.. tambien instalamos los componentes de CSS
 import "react-toastify/dist/ReactToastify.css";
-const QuioscoContext = createContext(categoriasDb);
+import axios from "axios";
+
+const QuioscoContext = createContext();
 const QuioscoProvider = ({ children }) => {
   //Podemos pasarle strings  funciones state etc dentro del value/
 
-  const [categorias, setCategorias] = useState(categoriasDb); //se utiliza corchetes en el destructuring
-  const [categoriaActual, setCategoriaActual] = useState(categorias[0]); //cuando presionamos una categoria se cambia ala categoria actual
+  const [categorias, setCategorias] = useState([]); //se utiliza corchetes en el destructuring
+  const [categoriaActual, setCategoriaActual] = useState({}); //cuando presionamos una categoria se cambia ala categoria actual
   const [modal, setmodal] = useState(false); //Cuando el usuario presione 'Agregar' se debemostrar un modal
   const [producto, setProducto] = useState({}); //se inicia con un objeto vacio
   const [pedido, setPedido] = useState([]); //se inicia como arreglo vacio , setPedido tendra varias acciones agregar quitar actualizar pedidos en la misma function
+  const [total, setTotal] = useState(0); //se inicia en 0 por obvias razones
+
+  useEffect(() => {
+    const nuevoTotal = pedido.reduce(
+      (total, producto) => producto.precio * producto.cantidad + total,
+      0
+    );
+    setTotal(nuevoTotal);
+  }, [pedido]);
+
+  const obtenerCategorias = async () => {
+    try {
+      const { data } = await axios(
+        `${import.meta.env.VITE_API_URL}/api/categorias`
+      );
+      setCategorias(data.data);
+      setCategoriaActual(data.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    obtenerCategorias();
+  }, []);
 
   const handleClickCategoria = (id) => {
     const categoria = categorias.filter((categoria) => categoria.id === id)[0];
@@ -68,6 +95,7 @@ const QuioscoProvider = ({ children }) => {
         handleAgregarPedido,
         handleEditarCantidad,
         handleEliminarProductoPedido,
+        total,
       }}
     >
       {children}
