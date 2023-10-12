@@ -1,7 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 // import { categorias as categoriasDb } from "../data/categorias";
 import { toast } from "react-toastify"; //!Instalamos toastify y agremaos al provider.. tambien instalamos los componentes de CSS
-import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 const QuioscoContext = createContext();
