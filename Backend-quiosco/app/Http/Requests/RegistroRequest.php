@@ -36,7 +36,7 @@ class RegistroRequest extends FormRequest
     public function messages(){
         return [
             'name'=>'El Nombre es obligatorio',
-            'email'=>'El Email es obligatorio',
+            'email.required'=>'El Email es obligatorio',
             'email.email'=>'El Email no es valido',
             'email.unique'=>'El usuario ya esta registrado',
             'password'=>'El Password debe contener al menos 8 caracteres, un signo y un numero',
