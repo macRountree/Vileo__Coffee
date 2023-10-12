@@ -8,8 +8,8 @@ const QuioscoContext = createContext();
 const QuioscoProvider = ({ children }) => {
   //Podemos pasarle strings  funciones state etc dentro del value/
 
-  const [categorias, setCategorias] = useState([]); //se utiliza corchetes en el destructuring
-  const [categoriaActual, setCategoriaActual] = useState({}); //cuando presionamos una categoria se cambia ala categoria actual
+  const [categorias, setCategorias] = useState([]); //se utiliza corchetes en el destructuring y empieza con un arreglo vacio
+  const [categoriaActual, setCategoriaActual] = useState({}); //cuando presionamos una categoria se cambia ala categoria actual e inicia como objeto
   const [modal, setmodal] = useState(false); //Cuando el usuario presione 'Agregar' se debemostrar un modal
   const [producto, setProducto] = useState({}); //se inicia con un objeto vacio
   const [pedido, setPedido] = useState([]); //se inicia como arreglo vacio , setPedido tendra varias acciones agregar quitar actualizar pedidos en la misma function
