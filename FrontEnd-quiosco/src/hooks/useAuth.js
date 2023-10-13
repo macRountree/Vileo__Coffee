@@ -38,7 +38,7 @@ export const useAuth = ({ middleware, url }) => {
       setErrores([]);
       await mutate();
     } catch (error) {
-      setErrores(Object.values.error.response.data.errors); //si el usuario comete varios errores y el state se actualiza
+      setErrores(Object.values(error.response.data.errors)); //si el usuario comete varios errores y el state se actualiza
     }
   };
   const logout = async () => {
@@ -60,7 +60,7 @@ export const useAuth = ({ middleware, url }) => {
       navigate(url);
     }
     if (middleware === "auth" && error) {
-      navigate("auth/login");
+      navigate("/auth/login");
     }
   }, [user, error]);
   return {

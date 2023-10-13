@@ -13,6 +13,7 @@ export default function Inicio() {
   const { data, error, isLoading } = useSWR("/api/productos", fetcher, {
     refreshInterval: 1000,
   });
+  console.log(data);
 
   if (isLoading) return "Cargando...";
   // console.log(isLoading);
