@@ -1,7 +1,7 @@
 import { createContext, useState, useEffect } from "react";
 // import { categorias as categoriasDb } from "../data/categorias";
 import { toast } from "react-toastify"; //!Instalamos toastify y agremaos al provider.. tambien instalamos los componentes de CSS
-import axios from "axios";
+import clienteAxios from "../config/axios";
 
 const QuioscoContext = createContext();
 const QuioscoProvider = ({ children }) => {
@@ -23,10 +23,13 @@ const QuioscoProvider = ({ children }) => {
   }, [pedido]);
 
   const obtenerCategorias = async () => {
+    const token = localStorage.getItem("AUTH_TOKEN");
     try {
-      const { data } = await axios(
-        `${import.meta.env.VITE_API_URL}/api/categorias`
-      );
+      const { data } = await clienteAxios("/api/categorias", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setCategorias(data.data);
       setCategoriaActual(data.data[0]);
     } catch (error) {
@@ -78,6 +81,42 @@ const QuioscoProvider = ({ children }) => {
     toast.success("Pedido Eliminado");
   };
 
+  const handleSubmitNuevaOrden = async (logout) => {
+    const token = localStorage.getItem("AUTH_TOKEN");
+    try {
+      const { data } = await clienteAxios.post(
+        "/api/pedidos",
+        {
+          total,
+          productos: pedido.map((producto) => {
+            return {
+              id: producto.id,
+              cantidad: producto.cantidad,
+            };
+          }),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      toast.success(data.message);
+      setTimeout(() => {
+        setPedido([]);
+      }, 1000);
+
+      // Cerrar la sesión del usuario
+      setTimeout(() => {
+        localStorage.removeItem("AUTH_TOKEN");
+        logout();
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     //Colocamos variables o funciones donde sea para importarlos en cualquier componente
 
@@ -95,6 +134,7 @@ const QuioscoProvider = ({ children }) => {
         handleEditarCantidad,
         handleEliminarProductoPedido,
         total,
+        handleSubmitNuevaOrden,
       }}
     >
       {children}

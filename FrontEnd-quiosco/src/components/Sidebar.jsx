@@ -12,7 +12,7 @@ export default function Sidebar() {
       <div className="p-4">
         <img className="w-40" src="img/logo.svg " alt="Logo Coffee" />
       </div>
-      <p className="my-10 text-xl text-center">HOla {user?.name} </p>
+      <p className="my-10 text-xl text-center">Hola: {user?.name} </p>
       <div className="mt-10">
         {categorias.map((categoria) => (
           // console.log(categoria)

@@ -11,14 +11,14 @@ export const useAuth = ({ middleware, url }) => {
     error,
     mutate,
   } = useSWR("/api/user", () =>
-    clienteAxios("api/user", {
+    clienteAxios("/api/user", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => res.data)
       .catch((error) => {
-        throw new Error(error?.response?.data?.errors);
+        throw Error(error?.response?.data?.errors);
       })
   );
   const login = async (datos, setErrores) => {
@@ -51,13 +51,20 @@ export const useAuth = ({ middleware, url }) => {
       localStorage.removeItem("AUTH_TOKEN");
       await mutate(undefined);
     } catch (error) {
-      throw new Error(error?.response?.data?.errors);
+      throw Error(error?.response?.data?.errors);
     }
   };
 
   useEffect(() => {
     if (middleware === "guest" && url && user) {
       navigate(url);
+    }
+    if (middleware === "guest" && user && user.admin) {
+      navigate("/admin");
+    }
+
+    if (middleware === "admin" && user && !user.admin) {
+      navigate("/");
     }
     if (middleware === "auth" && error) {
       navigate("/auth/login");
