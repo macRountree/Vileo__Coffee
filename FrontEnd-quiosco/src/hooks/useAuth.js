@@ -11,14 +11,14 @@ export const useAuth = ({ middleware, url }) => {
     error,
     mutate,
   } = useSWR("/api/user", () =>
-    clienteAxios("api/user", {
+    clienteAxios("/api/user", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => res.data)
       .catch((error) => {
-        throw new Error(error?.response?.data?.errors);
+        throw Error(error?.response?.data?.errors);
       })
   );
   const login = async (datos, setErrores) => {
@@ -38,7 +38,7 @@ export const useAuth = ({ middleware, url }) => {
       setErrores([]);
       await mutate();
     } catch (error) {
-      setErrores(error.response.data.errors); //si el usuario comete varios errores y el state se actualiza
+      setErrores(Object.values(error.response.data.errors)); //si el usuario comete varios errores y el state se actualiza
     }
   };
   const logout = async () => {
@@ -51,7 +51,7 @@ export const useAuth = ({ middleware, url }) => {
       localStorage.removeItem("AUTH_TOKEN");
       await mutate(undefined);
     } catch (error) {
-      throw new Error(error?.response?.data?.errors);
+      throw Error(error?.response?.data?.errors);
     }
   };
 
@@ -59,8 +59,15 @@ export const useAuth = ({ middleware, url }) => {
     if (middleware === "guest" && url && user) {
       navigate(url);
     }
+    if (middleware === "guest" && user && user.admin) {
+      navigate("/admin");
+    }
+
+    if (middleware === "admin" && user && !user.admin) {
+      navigate("/");
+    }
     if (middleware === "auth" && error) {
-      navigate("auth/login");
+      navigate("/auth/login");
     }
   }, [user, error]);
   return {
