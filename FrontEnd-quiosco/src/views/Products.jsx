@@ -1,21 +1,21 @@
-import useSWR from "swr";
-import clienteAxios from "../config/axios";
-import Productos from "../components/Productos";
+import useSWR from 'swr';
+import clienteAxios from '../config/axios';
+import Productos from '../components/Productos';
 
-export default function Productos() {
-  const token = localStorage.getItem("AUTH_TOKEN");
+export default function Products() {
+  const token = localStorage.getItem('AUTH_TOKEN');
   const fetcher = () =>
-    clienteAxios("/api/productos", {
+    clienteAxios('/api/productos', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then((datos) => datos.data);
+    }).then(datos => datos.data);
 
-  const { data, error, isLoading } = useSWR("/api/productos", fetcher, {
+  const { data, error, isLoading } = useSWR('/api/productos', fetcher, {
     refreshInterval: 10000,
   });
 
-  if (isLoading) return "Cargando...";
+  if (isLoading) return 'Cargando...';
 
   return (
     <div>
@@ -23,7 +23,7 @@ export default function Productos() {
       <p className="text-2xl my-10">Maneja la disponibilidad desde aquí.</p>
 
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-        {data.data.map((producto) => (
+        {data.data.map(producto => (
           <Productos
             key={producto.imagen}
             producto={producto}

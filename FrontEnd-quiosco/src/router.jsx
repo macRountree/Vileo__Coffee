@@ -1,16 +1,16 @@
-import { createBrowserRouter } from "react-router-dom";
-import AuthLayout from "./layouts/AuthLayout";
-import Inicio from "./views/Inicio";
-import Layout from "./layouts/Layout";
-import Login from "./views/Login";
-import Registro from "./views/Registro";
-import AdminLayout from "./layouts/AdminLayout";
-import Ordenes from "./views/Ordenes";
-import Productos from "./views/Productos";
+import { createBrowserRouter } from 'react-router-dom';
+import AuthLayout from './layouts/AuthLayout';
+import Inicio from './views/Inicio';
+import Layout from './layouts/Layout';
+import Login from './views/Login';
+import Registro from './views/Registro';
+import AdminLayout from './layouts/AdminLayout';
+import Ordenes from './views/Ordenes';
+import Products from './views/Products';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Layout />,
     children: [
       {
@@ -20,21 +20,21 @@ const router = createBrowserRouter([
     ], //*Element es un componente de react cuando el usuario visite esa pagina
   },
   {
-    path: "/auth",
+    path: '/auth',
     element: <AuthLayout />,
     children: [
       {
-        path: "/auth/login",
+        path: '/auth/login',
         element: <Login />,
       },
       {
-        path: "/auth/registro",
+        path: '/auth/registro',
         element: <Registro />,
       },
     ],
   },
   {
-    path: "/admin",
+    path: '/admin',
     element: <AdminLayout />,
     children: [
       {
@@ -42,8 +42,8 @@ const router = createBrowserRouter([
         element: <Ordenes />,
       },
       {
-        path: "/admin/productos",
-        element: <Productos />,
+        path: '/admin/productos',
+        element: <Products />,
       },
     ],
   },
